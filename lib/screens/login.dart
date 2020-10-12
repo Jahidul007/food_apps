@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/helper/screen_navigation.dart';
 import 'package:food_app/helper/style.dart';
 import 'package:food_app/providers/auth.dart';
+import 'package:food_app/screens/home_page.dart';
 import 'package:food_app/screens/registration.dart';
 import 'package:food_app/widgets/custom_text.dart';
 import 'package:food_app/widgets/loading.dart';
@@ -83,8 +84,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         _key.currentState.showSnackBar(
                           SnackBar(content: Text('Login Failed!'))
                         );
+                        return;
                       }
-                      return;
+                      authProvider.cleanControllers();
+                      changeScreenReplacement(context, Home());
                     },
                     child: Container(
                       decoration: BoxDecoration(
