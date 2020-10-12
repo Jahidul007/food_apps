@@ -13,10 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _key = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
+      key: _key,
       backgroundColor: white,
       body: authProvider.status == Status.Authenticating
           ? Loading()
@@ -75,6 +78,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: GestureDetector(
+                    onTap: () async {
+                      if (!await authProvider.signIn()) {
+                        _key.currentState.showSnackBar(
+                          SnackBar(content: Text('Login Failed!'))
+                        );
+                      }
+                      return;
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         color: red,
